@@ -213,7 +213,7 @@ In the horizontal completion geometry, gravitational head loss diminishes across
 
 | Tubing Size Sensitivity | Water Cut Sensitivity |
 | :---: | :---: |
-| ![Directional Tubing Sensitivity](results/directional_1/8f4f29e5-c27d-46c5-a58e-6e044c183b62.png) | ![Directional Water Cut](results/directional_1/2d6e2b00-9360-417a-b0f8-d0b93b3ee91a.png) |
+| ![Directional Tubing Sensitivity](results/directional_1/8f4f29e5-c27d-46c5-a58e-6e044c183b62.png) | ![Directional Water Cut](results/directional_1/6c3075d9-a815-4ad5-a741-88a09ee6d461.png) |
 | *Figure 6.5: Tubing sizing comparison along directional wellbore.* | *Figure 6.6: Water cut sensitivity in build-and-hold profile.* |
 
 | Producing GOR Sensitivity | Wellhead Pressure Sensitivity |
