@@ -287,18 +287,33 @@ $$FE = \frac{J_{\text{actual}}}{J_{\text{ideal}}} = \frac{\bar{P} - P_{wf,\text{
 
 ## 6. Vertical Lift Performance / Tubing Performance Curve (VLP/TPC)
 
-### 6.1 Mechanical Energy Balance Equation
+### 6.1 Mechanical Energy Conservation Gradient Breakdown
 
-$$\frac{dP}{dz} = \left( \frac{dP}{dz} \right)_{\text{gravity}} + \left( \frac{dP}{dz} \right)_{\text{friction}} + \left( \frac{dP}{dz} \right)_{\text{acceleration}}$$
+The steady-state mechanical energy conservation equation along measured depth $z$ ($MD$) accounts for three simultaneous pressure dissipation mechanisms:
 
-Neglecting kinetic acceleration:
+$$\frac{dP}{dz} = \left( \frac{dP}{dz} \right)_{\text{gravity}} + \left( \frac{dP}{dz} \right)_{\text{friction}} + \left( \frac{dP}{dz} \right)_{\text{kinetic}}$$
 
-$$\frac{dP}{dz} = \frac{\rho_m \cdot g \cdot \cos\theta}{144 \cdot g_c} + \frac{f_m \cdot \rho_m \cdot v_m^2}{2 \cdot 144 \cdot g_c \cdot d} \quad [\text{psi/ft}]$$
+1. **Gravitational / Hydrostatic Gradient:**
+   $$\left( \frac{dP}{dz} \right)_{\text{gravity}} = \frac{\rho_m \cdot g \cdot \sin\theta}{144 \cdot g_c} \quad [\text{psi/ft}]$$
+   where $\theta$ is the well inclination angle relative to horizontal ($90^\circ$ for vertical, $0^\circ$ for horizontal in Beggs-Brill notation).
+
+2. **Frictional Gradient:**
+   $$\left( \frac{dP}{dz} \right)_{\text{friction}} = \frac{f_{tp} \cdot \rho_{ns} \cdot v_m^2}{2 \cdot 144 \cdot g_c \cdot d} \quad [\text{psi/ft}]$$
+
+3. **Kinetic / Acceleration Gradient:**
+   $$\left( \frac{dP}{dz} \right)_{\text{kinetic}} = E_k \cdot \left( \frac{dP}{dz} \right)_{\text{total}} = \frac{E_k}{1 - E_k} \left[ \left( \frac{dP}{dz} \right)_{\text{gravity}} + \left( \frac{dP}{dz} \right)_{\text{friction}} \right] \quad [\text{psi/ft}]$$
+   where $E_k$ is the dimensionless kinetic acceleration parameter:
+   $$E_k = \min\left( \frac{v_m \cdot v_{sg} \cdot \rho_{ns}}{g_c \cdot P \cdot 144}, \; 0.6 \right)$$
+
+Total coupled gradient:
+$$\left( \frac{dP}{dz} \right)_{\text{total}} = \frac{\left( \dfrac{dP}{dz} \right)_{\text{gravity}} + \left( \dfrac{dP}{dz} \right)_{\text{friction}}}{1 - E_k} \quad [\text{psi/ft}]$$
 
 where:
 - $g = 32.174 \;\text{ft/s}^2$, $g_c = 32.174 \;\text{lbm}\cdot\text{ft}/(\text{lbf}\cdot\text{s}^2)$
-- $\theta$ = deviation angle from vertical ($\text{rad}$)
 - $d$ = internal diameter of tubing ($\text{ft}$)
+- $P$ = in-situ pressure ($\text{psia}$)
+- $\rho_{ns}, \rho_m$ = no-slip and slip mixture densities ($\text{lbm/ft}^3$)
+- $v_m, v_{sg}$ = mixture and superficial gas velocities ($\text{ft/s}$)
 
 ### 6.2 Multi-Phase In-Situ Volumetric Rates
 
