@@ -28,7 +28,10 @@ The **Minimum Curvature Method** is the standard mathematical approach for compu
 
 ### 1.1 Dogleg Angle ($\delta$)
 
-The total angular displacement $\delta$ between consecutive survey stations $1$ and $2$ is given by:
+Conventional fomula:
+$$\delta = \arccos \Bigl( \cos(\phi_2 - \phi_1)\sin\alpha_1\sin\alpha_2 + \cos\alpha_1\cos\alpha_2\Bigr)$$
+
+The total angular displacement $\delta$ between consecutive survey stations $1$ and $2$ is given by (used):
 
 $$\delta = \arccos \Bigl( \cos(\alpha_2 - \alpha_1) - \sin\alpha_1 \sin\alpha_2 \bigl( 1 - \cos(\phi_2 - \phi_1) \bigr) \Bigr)$$
 
