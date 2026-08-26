@@ -6,8 +6,11 @@
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# PowerPoint presentation (generated artifact)
+# PowerPoint presentation & Workflow Diagrams (generated artifacts)
 *.pptx
+*nodal_analysis_workflow.png
+*vlp_calculation_workflow.png
+assets/
 
 # Python cache
 __pycache__/
