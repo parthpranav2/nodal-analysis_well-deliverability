@@ -30,26 +30,8 @@ The system couples reservoir inflow deliverability (**IPR**), fluid thermophysic
 
 Nodal Analysis partitions the production system (from reservoir boundary to surface separator) into distinct hydraulic components, balancing fluid inflow against wellbore outflow at the bottomhole node:
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                               NODAL ANALYSIS ARCHITECTURE                              │
-│                                                                                        │
-│   RESERVOIR INFLOW (IPR)                     WELLBORE HYDRAULICS (VLP)                 │
-│   • Standing / Vogel / Composite             • Beggs & Brill (1973) Multi-Angle        │
-│   • Jones Non-Darcy Quadratic                • Hagedorn & Brown (1965) Vertical        │
-│   • Skin Factor & Flow Efficiency            • Colebrook-White Pipe Friction           │
-│                    │                                         │                         │
-│                    └─────────────────┬───────────────────────┘                         │
-│                                      ▼                                                 │
-│                        BOTTOMHOLE NODE PRESSURE BALANCE                                │
-│                     Pwf_IPR(q*) = Pwf_VLP(q*)  →  Operating Point (q*, Pwf*)           │
-│                                      │                                                 │
-│                                      ▼                                                 │
-│                             SENSITIVITY & OPTIMIZATION                                 │
-│   • Tubing Sizing (API 5CT)       • Water Cut & GOR Shifts    • Gas-Lift Optimization  │
-│   • Depletion Trajectory          • Wellhead Back-Pressure    • Liquid Loading Limits  │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-```
+![Nodal Analysis Engineering Workflow](assets/nodal_analysis_workflow.png)
+*Figure 1.1: End-to-end petroleum production engineering workflow and nodal balance architecture.*
 
 > **Detailed Equations:** For full analytical derivations, governing differential equations, and coefficient tables, see [`FORMULAS_IN_USE.md`](FORMULAS_IN_USE.md).
 
@@ -149,6 +131,13 @@ The reservoir deliverability curve calibrated from well test data at $(q_{\text{
 ![Vertical Execution Screenshot](results/vertical/Screenshot%202026-08-21%20at%2012.43.28.png)
 *Figure 4.12: Interactive Jupyter Notebook execution state and parameter summary.*
 
+### 4.5 Mechanical Energy Conservation Pressure Gradient Breakdown
+
+The Beggs & Brill mechanical energy gradient is resolved into its three physical dissipation components—Gravitational Head Loss $(dP/dz)_{\text{gravity}}$, Frictional Pressure Drop $(dP/dz)_{\text{friction}}$, and Kinetic Acceleration $(dP/dz)_{\text{kinetic}}$—along measured depth ($MD$):
+
+![Vertical Pressure Gradient Breakdown](results/vertical/pressurgrad_wrtmd.png)
+*Figure 4.13: Mechanical energy pressure gradient components vs. Measured Depth ($MD$) for the Vertical Well case, demonstrating dominant hydrostatic head loss in vertical multiphase flow.*
+
 ---
 
 ## 5. Test Run 2: Horizontal Lateral Well
@@ -189,6 +178,13 @@ The reservoir deliverability curve calibrated from well test data at $(q_{\text{
 
 ![Horizontal Execution Screenshot](results/horizontal/Screenshot%202026-08-21%20at%2012.45.54.png)
 *Figure 5.10: Interactive Jupyter Notebook execution state for the horizontal lateral case.*
+
+### 5.4 Mechanical Energy Conservation Pressure Gradient Breakdown
+
+In the horizontal completion geometry, gravitational head loss diminishes across the build curve to zero in the lateral section ($\cos 90^\circ = 0$), shifting dissipation predominantly to frictional backpressure:
+
+![Horizontal Pressure Gradient Breakdown](results/horizontal/pressurgrad_wrtmd.png)
+*Figure 5.11: Mechanical energy pressure gradient components vs. Measured Depth ($MD$) for the Horizontal Lateral Well case, showing the transition from hydrostatic-dominated vertical/build section to friction-dominated lateral section.*
 
 ---
 
@@ -237,6 +233,13 @@ The reservoir deliverability curve calibrated from well test data at $(q_{\text{
 
 ![Directional Execution Screenshot](results/directional_1/Screenshot%202026-08-21%20at%2012.49.17.png)
 *Figure 6.12: Interactive Jupyter Notebook execution state and survey file loader.*
+
+### 6.5 Mechanical Energy Conservation Pressure Gradient Breakdown
+
+Along the 3D directional trajectory of Schoonebeek-1301, the hydrostatic gradient modulates dynamically with well inclination $\theta(z)$, capturing exact spatial energy dissipation across build, hold, and drop sections:
+
+![Directional Pressure Gradient Breakdown](results/directional_1/pressurgrad_wrtmd.png)
+*Figure 6.13: Mechanical energy pressure gradient components vs. Measured Depth ($MD$) for the Directional Well (Schoonebeek-1301) case.*
 
 ---
 
