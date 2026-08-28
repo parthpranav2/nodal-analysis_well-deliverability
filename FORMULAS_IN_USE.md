@@ -68,6 +68,10 @@ $$\text{MD}_{\text{ft}} = 3.28084 \cdot \text{MD}_{\text{m}}$$
 
 $$\theta_{\text{code}} = 90^\circ - \theta_{\text{survey}}$$
 
+### 1.6 Cumulative Horizontal Departure ($D$)
+
+$$N_i = \sum \Delta N, \quad E_i = \sum \Delta E, \quad D_i = \sqrt{N_i^2 + E_i^2}$$
+
 ---
 
 ## 2. Black-Oil PVT — Oil Phase
@@ -75,12 +79,14 @@ $$\theta_{\text{code}} = 90^\circ - \theta_{\text{survey}}$$
 ### 2.1 API to Specific Gravity ($\gamma_o$)
 
 $$\gamma_o = \frac{141.5}{131.5 + \text{API}}$$
+$$\gamma_o = f(API)$$
 
 ### 2.2 Standing (1947) Solution Gas-Oil Ratio ($R_s$) — Saturated ($P \le P_b$)
 
 $$a = 0.0125 \cdot \text{API} - 0.00091 \cdot T$$
 
 $$R_s = \gamma_g \left[ \left( \frac{P}{18.2} + 1.4 \right) \cdot 10^a \right]^{1.2048} \quad [\text{scf/STB}]$$
+$$R_s=f(\gamma_g,P,API,T)$$
 
 where:
 - $P$ = pressure ($\text{psia}$)
@@ -93,18 +99,21 @@ where:
 Inverting the solution GOR correlation for a given initial dissolved GOR $R_{sb}$:
 
 $$P_b = 18.2 \left[ \left( \frac{R_{sb}}{\gamma_g} \right)^{\frac{1}{1.2048}} \cdot 10^{-a} - 1.4 \right] \quad [\text{psia}]$$
+$$P_b=f(Rsb,\gamma_g,\gamma_o,T)$$
 
 ### 2.4 Standing (1947) Saturated Oil Formation Volume Factor ($B_o$)
 
 $$F = R_s \left( \frac{\gamma_g}{\gamma_o} \right)^{0.5} + 1.25 \cdot T$$
 
 $$B_o = 0.9759 + 1.2 \times 10^{-4} \cdot F^{1.2} \quad [\text{rb/STB}]$$
+$$B_o=f(R_s,\gamma_g,\gamma_o,T)$$
 
 ### 2.5 Vasquez & Beggs (1980) Undersaturated Oil Compressibility ($c_o$)
 
 For $P > P_b$:
 
 $$c_o = \frac{-1433 + 5 R_{sb} + 17.2 T - 1180 \gamma_g + 12.61 \text{API}}{10^5 \cdot P} \quad [\text{psi}^{-1}]$$
+$$c_o=f(\gamma_o,T,Rsb,\gamma_g,P)$$
 
 ### 2.6 Undersaturated Oil Formation Volume Factor ($B_o$)
 
@@ -117,6 +126,7 @@ where $B_{ob} = B_o(P_b, R_{sb})$.
 ### 2.7 Live Oil Density ($\rho_o$)
 
 $$\rho_o = \frac{350.17 \cdot \gamma_o + 0.0764 \cdot R_s \cdot \gamma_g}{5.615 \cdot B_o} \quad [\text{lbm/ft}^3]$$
+$$\rho_o=f(\gamma_o,\gamma_g,R_s,B_o)$$
 
 ### 2.8 Beggs & Robinson (1975) Dead-Oil Viscosity ($\mu_{od}$)
 
@@ -127,6 +137,7 @@ $$Y = 10^Z$$
 $$X = Y \cdot T^{-1.163}$$
 
 $$\mu_{od} = 10^X - 1 \quad [\text{cp}]$$
+$$\mu_od=f(API)$$
 
 ### 2.9 Beggs & Robinson (1975) Saturated Live-Oil Viscosity ($\mu_{ob}$)
 
@@ -137,6 +148,7 @@ where:
 $$a = 10.715 \cdot (R_s + 100)^{-0.515}$$
 
 $$b = 5.44 \cdot (R_s + 150)^{-0.338}$$
+$$\mu_ob=f(Rs,API)$$
 
 ### 2.10 Beggs & Robinson (1975) Undersaturated Oil Viscosity ($\mu_o$)
 
@@ -145,6 +157,7 @@ For $P > P_b$:
 $$m = 2.6 \cdot P^{1.187} \cdot \exp \bigl( -11.513 - 8.98 \times 10^{-5} \cdot P \bigr)$$
 
 $$\mu_o = \max \left( \mu_{ob} \left( \frac{P}{P_b} \right)^m, \; 0.05 \right) \quad [\text{cp}]$$
+$$\mu_o=f(Rs,API,P,P_b)$$
 
 ### 2.11 Baker & Swerdloff (1956) Interfacial Tension ($\sigma$)
 
@@ -153,10 +166,12 @@ $$\sigma_{68} = 39.0 - 0.2571 \cdot \text{API} \quad [\text{dynes/cm}]$$
 $$\sigma_{100} = 37.5 - 0.2571 \cdot \text{API} \quad [\text{dynes/cm}]$$
 
 $$\sigma_{\text{dead}} = \sigma_{68} - (T_c - 68) \cdot \frac{\sigma_{68} - \sigma_{100}}{32}, \quad T_c = \min \bigl( \max(T, 68), 100 \bigr)$$
+$$\sigma_{\text{dead}}=f(API,T)$$
 
 Live-oil pressure correction:
 
 $$\sigma_{\text{live}} = \max \left( \sigma_{\text{dead}} \cdot \bigl( 1 - 0.024 \cdot P^{0.45} \bigr), \; 1.0 \right) \quad [\text{dynes/cm}]$$
+$$\sigma_{\text{live}}=f(API,T,P)$$
 
 ---
 
@@ -167,10 +182,14 @@ $$\sigma_{\text{live}} = \max \left( \sigma_{\text{dead}} \cdot \bigl( 1 - 0.024
 $$T_{pc} = 169.2 + 349.5 \cdot \gamma_g - 74.0 \cdot \gamma_g^2 \quad [^\circ\text{R}]$$
 
 $$P_{pc} = 756.8 - 131.0 \cdot \gamma_g - 3.6 \cdot \gamma_g^2 \quad [\text{psia}]$$
+$$T_{pc}=f(\gamma_g)$$
+$$P_{pc}=f(\gamma_g)$$
 
 ### 3.2 Pseudo-Reduced Properties
 
 $$T_{pr} = \frac{T + 460}{T_{pc}}, \quad P_{pr} = \frac{P}{P_{pc}}$$
+$$T_{pr}=f(T,\gamma_g)$$
+$$P_{pr}=f(P,\gamma_g)$$
 
 ### 3.3 Dranchuk & Abou-Kassem (1975) Real-Gas Z-Factor (DAK)
 
@@ -187,6 +206,9 @@ $$c_1 = A_1 + \frac{A_2}{T_{pr}} + \frac{A_3}{T_{pr}^3} + \frac{A_4}{T_{pr}^4} +
 $$c_2 = A_6 + \frac{A_7}{T_{pr}} + \frac{A_8}{T_{pr}^2}$$
 
 $$c_3 = A_9 \left( \frac{A_7}{T_{pr}} + \frac{A_8}{T_{pr}^2} \right)$$
+$$c_1,c_2,c_3=f(T,P)$$
+$$\rho_r=f(P,T,Z)$$
+$$Z=f(P,T)$$
 
 #### DAK Coefficients Table
 
